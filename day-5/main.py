@@ -56,4 +56,31 @@ for row in grid:
     for cov in row:
         overlaps += int(cov >= 2)
 
-print(f"Number of overlaps: {overlaps}")
+print(f"Number of overlaps (only hv lines): {overlaps}")
+
+# Part 2 ----------------------------------------------------------------------
+grid = []
+for _ in range(rows):
+    grid.append([0] * cols)
+
+for line in lines:
+    x0, y0 = line[0][0], line[0][1]
+    dx, dy = [line[1][0] - line[0][0], line[1][1] - line[0][1]]
+    grid[y0][x0] += 1
+    if is_hv(line):
+        for i in range(sign(dx), dx + sign(dx), sign(dx)):
+            grid[y0][x0 + i] += 1
+        for j in range(sign(dy), dy + sign(dy), sign(dy)):
+            grid[y0 + j][x0] += 1
+    else:
+        # 45 degrees, so |dx|=|dy|
+        for ij in range(1, abs(dx) + 1):
+            grid[y0 + sign(dy)*ij][x0 + sign(dx)*ij] += 1
+
+# Count overlaps
+overlaps = 0
+for row in grid:
+    for cov in row:
+        overlaps += int(cov >= 2)
+
+print(f"Number of overlaps (all lines): {overlaps}")
