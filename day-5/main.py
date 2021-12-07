@@ -1,5 +1,3 @@
-from pandas import DataFrame
-
 input_filename = "day-5/input.txt"
 
 # Load data into an array
